@@ -1,7 +1,7 @@
 package komarov.taskmanagerbot.infrastructure.bpp;
 
 import komarov.taskmanagerbot.handlers.commands.CommandsHolder;
-import komarov.taskmanagerbot.infrastructure.annotations.AdminCommand;
+import komarov.taskmanagerbot.infrastructure.annotations.UserCommand;
 import komarov.taskmanagerbot.models.CommandMetaInformation;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +15,16 @@ import java.lang.reflect.Method;
 
 @Component
 @DependsOn("commandsHolder")
-public class AdminCommandsRegistrationBeanPostProcessor implements BeanPostProcessor {
+public class UserCommandsRegistrationBeanPostProcessor implements BeanPostProcessor {
     private final CommandsHolder commandsHolder;
     @Autowired
-    public AdminCommandsRegistrationBeanPostProcessor(CommandsHolder commandsHolder) {
+    public UserCommandsRegistrationBeanPostProcessor(CommandsHolder commandsHolder) {
         this.commandsHolder = commandsHolder;
     }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        AdminCommand annotation = bean.getClass().getAnnotation(AdminCommand.class);
+        UserCommand annotation = bean.getClass().getAnnotation(UserCommand.class);
         if (annotation != null) {
             Method[] methods = bean.getClass().getDeclaredMethods();
             for (Method m : methods) {

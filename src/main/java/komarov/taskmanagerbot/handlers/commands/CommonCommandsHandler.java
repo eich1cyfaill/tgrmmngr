@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @Component
 public class CommonCommandsHandler extends TokenizedLongPollingBot {
-    private CommandsHolder commandsHolder;
+    private final CommandsHolder commandsHolder;
     @Autowired
     public CommonCommandsHandler(CommandsHolder commandsHolder) {
         this.commandsHolder = commandsHolder;
@@ -31,13 +31,13 @@ public class CommonCommandsHandler extends TokenizedLongPollingBot {
             String[] prompt = update.getMessage().getText().split(" ");
             String cmd = prompt[0];
             if (cmd.length() > 1) {
-                cmd = cmd.substring(1, cmd.length());
+                cmd = cmd.substring(1);
             }
             String[] args = Arrays.copyOfRange(prompt, 1, prompt.length);
 
             try {
                 CommandExecutable<Update, TelegramLongPollingBot, ?> commandExecutable = commandsHolder.getMappings().get(cmd);
-                commandExecutable.executeCommand(update, this);
+                commandExecutable.executeCommand(update, this, args);
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }

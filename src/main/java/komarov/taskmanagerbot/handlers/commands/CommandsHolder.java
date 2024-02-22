@@ -14,21 +14,15 @@ import java.util.*;
 @Component
 @Getter
 public class CommandsHolder {
-    private Set<String> commandList;
+    private Set<String> adminCommandList;
+    private Set<String> userCommandList;
     private List<BotCommand> commandObjects;
     private Map<String, CommandExecutable<Update, TelegramLongPollingBot, ?>> mappings;
 
-    public CommandsHolder() {}
-
-    public CommandsHolder(Set<String> commandList, List<BotCommand> commandObjects, Map<String, CommandExecutable<Update, TelegramLongPollingBot, ?>> mappings) {
-        this.commandList = commandList;
-        this.commandObjects = commandObjects;
-        this.mappings = mappings;
-    }
-
     @PostConstruct
     public void initMethod() {
-        this.commandList = new HashSet<>();
+        this.userCommandList = new HashSet<>();
+        this.adminCommandList = new HashSet<>();
         this.commandObjects = new ArrayList<>();
         this.mappings = new HashMap<>();
     }
